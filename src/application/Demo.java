@@ -31,12 +31,22 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
+
+import old.StringEscapeUtils;
+
 import javax.swing.text.StyledEditorKit;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class Demo {
+	public static JTextArea textArea1;
+	public static JLabel textArea2;
+	
+	public static void aggiornaAnteprima() {
+		textArea2.setText("<html><body><p>" + textArea1.getText() + "</p></body></html>");
+	}
+	
 	public static void main(String[] args) {
 		JFrame f = new JFrame("LaTeX Editor");
 		JPanel sopra = new JPanel();
@@ -62,11 +72,11 @@ public class Demo {
 		sopra.add(bold);
 		sopra.add(italic);
 		
-		JTextArea textArea1 = new JTextArea();
+		textArea1 = new JTextArea();
 		textArea1.setLineWrap(true);
 		JScrollPane scrollPane1 = new JScrollPane(textArea1);
 		
-		JLabel textArea2 = new JLabel("<html><body><i>Ciao</i></body></html>");
+		textArea2 = new JLabel("<html><body><i>Ciao</i></body></html>");
 		JScrollPane scrollPane2 = new JScrollPane(textArea2);
 		scrollPane2.setHorizontalScrollBar(null);
 		
@@ -89,9 +99,16 @@ public class Demo {
 		textArea1.addKeyListener(new KeyListener(){
 			public void keyTyped(KeyEvent e) {}
 			public void keyReleased(KeyEvent e) {
-				textArea2.setText("<html><body><p>" + textArea1.getText() + "</p></body></html>");
+				aggiornaAnteprima();
 			}
 			public void keyPressed(KeyEvent e) {}
+		});
+		
+		bold.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {			
+				aggiornaAnteprima();
+			}
 		});
 		
 		Timer timer = new Timer();
