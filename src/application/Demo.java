@@ -7,6 +7,7 @@ import static java.awt.SystemColor.menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -31,19 +32,17 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 import javax.swing.text.StyledEditorKit;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class Demo {
 	public static void main(String[] args) {
 		JFrame f = new JFrame("LaTeX Editor");
 		JPanel sopra = new JPanel();
 		JPanel sinistra = new JPanel();
-		sinistra.setBackground(Color.GREEN);
-		JPanel centro = new JPanel();
-		centro.setBackground(Color.CYAN);
 		JPanel destra = new JPanel();
-		destra.setBackground(Color.RED);
 		JPanel sotto = new JPanel();
-		sotto.setBackground(Color.BLUE);
 		
 		JMenuBar menubar = new JMenuBar();
 		JMenu file = new JMenu("File");
@@ -63,14 +62,44 @@ public class Demo {
 		sopra.add(bold);
 		sopra.add(italic);
 		
+		JTextArea textArea1 = new JTextArea();
+		textArea1.setLineWrap(true);
+		JScrollPane scrollPane1 = new JScrollPane(textArea1);
+		
+		JLabel textArea2 = new JLabel("<html><body><i>Ciao</i></body></html>");
+		JScrollPane scrollPane2 = new JScrollPane(textArea2);
+		scrollPane2.setHorizontalScrollBar(null);
+		
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPane1, scrollPane2);
+		splitPane.setDividerLocation(380);
+		splitPane.setDividerSize(20);
+		scrollPane2.setMinimumSize(new Dimension(380,0));
+		
 		f.add(sopra, BorderLayout.PAGE_START);
-		f.add(sinistra, BorderLayout.LINE_START);
-		f.add(centro, BorderLayout.CENTER);
-		f.add(destra, BorderLayout.LINE_END);
+		f.add(splitPane, BorderLayout.CENTER);
 		f.add(sotto, BorderLayout.PAGE_END);
-		f.setSize(800, 600);
+		f.add(sinistra, BorderLayout.LINE_START);
+		f.add(destra, BorderLayout.LINE_END);
+		f.setSize(820, 600);
+		f.setMinimumSize(new Dimension(820,600));
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		textArea1.addKeyListener(new KeyListener(){
+			public void keyTyped(KeyEvent e) {}
+			public void keyReleased(KeyEvent e) {
+				textArea2.setText("<html><body><p>" + textArea1.getText() + "</p></body></html>");
+			}
+			public void keyPressed(KeyEvent e) {}
+		});
+		
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				textArea2.setPreferredSize(new Dimension(scrollPane2.getWidth(), scrollPane2.getHeight()));
+			}
+		}, 1000, 1000);
 	}
 }
