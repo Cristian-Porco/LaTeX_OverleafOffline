@@ -1,4 +1,4 @@
-package old;
+package application;
 
 public class StringEscapeUtils {
 	public static String escapeJava(String s){

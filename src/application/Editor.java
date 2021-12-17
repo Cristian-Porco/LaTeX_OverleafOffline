@@ -31,9 +31,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
-
-import old.StringEscapeUtils;
-
 import javax.swing.text.StyledEditorKit;
 import java.util.Timer;
 import java.util.TimerTask;
