@@ -7,6 +7,7 @@ public class StringEscapeUtils {
 		          .replace("\n", "\\n")
 		          .replace("\r", "\\r")
 		          .replace("\f", "\\f")
+		          .replace("\s", "\\s")
 		          .replace("\'", "\\'")
 		          .replace("\"", "\\\"");
 		}
