@@ -44,7 +44,9 @@ public class Demo {
 	public static JLabel textArea2;
 	
 	public static void aggiornaAnteprima() {
-		textArea2.setText("<html><body><p>" + textArea1.getText() + "</p></body></html>");
+		String tmp = textArea1.getText();
+		
+		textArea2.setText("<html><body><p>" + tmp + "</p></body></html>");
 	}
 	
 	public static void main(String[] args) {
@@ -94,7 +96,7 @@ public class Demo {
 		f.setMinimumSize(new Dimension(820,600));
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//f.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		textArea1.addKeyListener(new KeyListener(){
 			public void keyTyped(KeyEvent e) {}
@@ -106,7 +108,50 @@ public class Demo {
 		
 		bold.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {			
+			public void actionPerformed(ActionEvent e) {
+				String precedente = "";
+				try {
+					precedente = textArea1.getText(0, textArea1.getSelectionStart());
+				} catch (BadLocationException e1) {
+					e1.printStackTrace();
+				}
+				String boldLatex = "";
+				if(textArea1.getSelectionStart() != textArea1.getSelectionEnd())
+					boldLatex = StringEscapeUtils.escapeJava("\textbf{" + textArea1.getSelectedText() + "}");
+				else
+					boldLatex = StringEscapeUtils.escapeJava("\textbf{}");
+				String successivo = "";
+				try {
+					successivo = textArea1.getText(textArea1.getSelectionEnd(), textArea1.getText().length()-textArea1.getSelectionEnd());
+				} catch (BadLocationException e1) {
+					e1.printStackTrace();
+				}
+				textArea1.setText(precedente + boldLatex + successivo);
+				aggiornaAnteprima();
+			}
+		});
+		
+		italic.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String precedente = "";
+				try {
+					precedente = textArea1.getText(0, textArea1.getSelectionStart());
+				} catch (BadLocationException e1) {
+					e1.printStackTrace();
+				}
+				String italicLatex = "";
+				if(textArea1.getSelectionStart() != textArea1.getSelectionEnd())
+					italicLatex = StringEscapeUtils.escapeJava("\textit{" + textArea1.getSelectedText() + "}");
+				else
+					italicLatex = StringEscapeUtils.escapeJava("\textit{}");
+				String successivo = "";
+				try {
+					successivo = textArea1.getText(textArea1.getSelectionEnd(), textArea1.getText().length()-textArea1.getSelectionEnd());
+				} catch (BadLocationException e1) {
+					e1.printStackTrace();
+				}
+				textArea1.setText(precedente + italicLatex + successivo);
 				aggiornaAnteprima();
 			}
 		});
