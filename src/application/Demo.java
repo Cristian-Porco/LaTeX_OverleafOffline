@@ -46,6 +46,7 @@ public class Demo {
 	public static void aggiornaAnteprima() {
 		String tmp = textArea1.getText();
 		
+		
 		textArea2.setText("<html><body><p>" + tmp + "</p></body></html>");
 	}
 	
