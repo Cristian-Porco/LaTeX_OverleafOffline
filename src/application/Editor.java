@@ -159,6 +159,48 @@ public class Editor {
 		aggiornaAnteprima();
 	}
 	
+	protected static void itemize() {
+		String precedente = "";
+		try {
+			precedente = textArea1.getText(0, textArea1.getSelectionStart());
+		} catch (BadLocationException e1) {
+			e1.printStackTrace();
+		}
+		String itemizeLatex = "";
+		itemizeLatex = StringEscapeUtils.escapeJava("\begin{itemize}") +
+				"\n\t" + StringEscapeUtils.escapeJava("\\") + "item" + "\n"
+				+ StringEscapeUtils.escapeJava("\\end{itemize}"); 
+		String successivo = "";
+		try {
+			successivo = textArea1.getText(textArea1.getSelectionEnd(), textArea1.getText().length()-textArea1.getSelectionEnd());
+		} catch (BadLocationException e1) {
+			e1.printStackTrace();
+		}
+		textArea1.setText(precedente + itemizeLatex + successivo);
+		aggiornaAnteprima();
+	}
+	
+	protected static void enumerate() {
+		String precedente = "";
+		try {
+			precedente = textArea1.getText(0, textArea1.getSelectionStart());
+		} catch (BadLocationException e1) {
+			e1.printStackTrace();
+		}
+		String enumerateLatex = "";
+		enumerateLatex = StringEscapeUtils.escapeJava("\begin{enumerate}") +
+				"\n\t" + StringEscapeUtils.escapeJava("\\") + "item" + "\n"
+				+ StringEscapeUtils.escapeJava("\\end{enumerate}"); 
+		String successivo = "";
+		try {
+			successivo = textArea1.getText(textArea1.getSelectionEnd(), textArea1.getText().length()-textArea1.getSelectionEnd());
+		} catch (BadLocationException e1) {
+			e1.printStackTrace();
+		}
+		textArea1.setText(precedente + enumerateLatex + successivo);
+		aggiornaAnteprima();
+	}
+	
 	public static void main(String[] args) {
 		JFrame f = new JFrame("LaTeX Editor");
 		JPanel sopra = new JPanel();
@@ -189,6 +231,8 @@ public class Editor {
 		JButton section = new JButton("Section");
 		JButton subsection = new JButton("S-Section");
 		JButton subsubsection = new JButton("S-S-Section");
+		JButton itemize = new JButton("Itemize");
+		JButton enumerate = new JButton("Enumerate");
 		sopra.add(bold);
 		sopra.add(italic);
 		sopra.add(new JSeparator());
@@ -196,6 +240,8 @@ public class Editor {
 		sopra.add(subsection);
 		sopra.add(subsubsection);
 		sopra.add(new JSeparator());
+		sopra.add(itemize);
+		sopra.add(enumerate);
 		
 		textArea1 = new JTextArea();
 		textArea1.setLineWrap(true);
@@ -267,6 +313,16 @@ public class Editor {
 		subsubsection.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { subsubsection(); }
+		});
+		
+		itemize.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) { itemize(); }
+		});
+		
+		enumerate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) { enumerate(); }
 		});
 		
 		Timer timer = new Timer();

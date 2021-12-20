@@ -43,8 +43,11 @@ public class Intro {
 		JPanel destra = new JPanel();
 		JPanel sotto = new JPanel();	
 		
-		sopra.add(new JLabel("Benvenuto su LaTeX Editor"));
-		JPanel menu = new JPanel();
+		Font font = new Font("Arial", Font.BOLD, 19);
+		JLabel title = new JLabel("Benvenuto su LaTeX Editor");
+        title.setFont(font);
+		sopra.setAlignmentX(Component.LEFT_ALIGNMENT);
+		sopra.add(title);
 		
 		f.add(sopra, BorderLayout.PAGE_START);
 		f.add(centro, BorderLayout.CENTER);
